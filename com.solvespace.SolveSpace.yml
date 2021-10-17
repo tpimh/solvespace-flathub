@@ -1,0 +1,94 @@
+app-id: com.solvespace.SolveSpace
+runtime: org.gnome.Platform
+runtime-version: '3.38'
+sdk: org.gnome.Sdk
+command: solvespace
+finish-args:
+  - --socket=wayland
+  - --socket=x11
+  - --device=dri
+  - --filesystem=home
+modules:
+  - name: sigc++
+    config-opts:
+      - --disable-documentation
+    cleanup:
+      - /lib/sigc++-*
+    sources:
+      - type: archive
+        url: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.10/libsigc++-2.10.2.tar.xz
+        sha256: b1ca0253379596f9c19f070c83d362b12dfd39c0a3ea1dd813e8e21c1a097a98
+  - name: glibmm
+    config-opts:
+      - --disable-documentation
+    cleanup:
+      - /lib/glibmm-*
+      - /lib/giomm-*
+    sources: 
+      - type: archive
+        url: http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.62/glibmm-2.62.0.tar.xz
+        sha256: 36659f13cc73282392d1305858f3bbca46fbd1ce2f078cc9db8b9f79b2e93cfe
+  - name: cairomm
+    config-opts:
+      - --disable-documentation
+    cleanup:
+      - /lib/cairomm-*
+    sources:
+      - type: archive
+        url: http://ftp.gnome.org/pub/GNOME/sources/cairomm/1.12/cairomm-1.12.0.tar.xz
+        sha256: a54ada8394a86182525c0762e6f50db6b9212a2109280d13ec6a0b29bfd1afe6
+  - name: pangomm
+    config-opts:
+      - --disable-documentation
+    cleanup:
+      - /lib/pangomm-*
+    sources:
+      - type: archive
+        url: http://ftp.gnome.org/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz
+        sha256: 9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af
+  - name: atkmm
+    config-opts:
+      - --disable-documentation
+    cleanup:
+      - /lib/atkmm-*
+    sources:
+      - type: archive
+        url: http://ftp.gnome.org/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz
+        sha256: ff95385759e2af23828d4056356f25376cfabc41e690ac1df055371537e458bd
+  - name: gtkmm
+    config-opts:
+      - --disable-documentation
+    cleanup:
+      - /lib/gtkmm-*
+      - /lib/gdkmm-*
+    sources:
+      - type: archive
+        url: http://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.24/gtkmm-3.24.2.tar.xz
+        sha256: 6d71091bcd1863133460d4188d04102810e9123de19706fb656b7bb915b4adc3
+  - name: libspnav
+    sources:
+      - type: archive
+        url: https://downloads.sourceforge.net/project/spacenav/spacenav%20library%20%28SDK%29/libspnav%200.2.3/libspnav-0.2.3.tar.gz
+        sha256: 7ae4d7bb7f6a5dda28b487891e01accc856311440f582299760dace6ee5f1f93
+  - name: json-c
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DENABLE_THREADING=ON
+      - -DENABLE_RDRAND=OFF
+    sources:
+      - type: git
+        url: https://github.com/json-c/json-c/
+        branch: json-c-0.15-20200726
+    cleanup:
+      - /include
+      - /lib/cmake
+      - /lib/pkgconfig
+  - name: solvespace
+    buildsystem: cmake-ninja
+    builddir: true
+    sources:
+      - type: git
+        url: https://github.com/solvespace/solvespace
+        disable-shallow-clone: true
+        tag: v3.0
+        commit: 0e0b0252e23dd5bd4ae82ababcc54c44aee036d6
